@@ -84,7 +84,7 @@ PAGE = """
 <body>
 <div class="header">
   <h1>Crime Warehouse &mdash; DuckDB + dbt</h1>
-  <p>Query the gold/silver/bronze layers directly. dbt Jinja is supported: <code>{{ source('bronze', 'crime_district_raw') }}</code> and <code>{{ ref('fact_crime') }}</code>.</p>
+  <p>Query the gold/silver/bronze layers directly. dbt Jinja is supported: {% raw %}<code>{{ source('bronze', 'crime_district_raw') }}</code> and <code>{{ ref('fact_crime') }}</code>{% endraw %}.</p>
 </div>
 <div class="wrap">
   <div class="col-left">
