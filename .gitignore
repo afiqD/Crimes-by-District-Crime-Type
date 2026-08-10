@@ -6,3 +6,4 @@ target/
 dbt_packages/
 logs/
 .DS_Store
+.crime_district_cache.json
