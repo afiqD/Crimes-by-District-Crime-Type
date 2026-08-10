@@ -57,7 +57,44 @@ dbt docs generate
 dbt docs serve
 ```
 
-`dbt docs serve` opens a browser with an auto-generated lineage graph of the whole pipeline.
+`dbt docs serve` opens a browser with an auto-generated lineage graph of the whole pipeline. Ready-made SQL for the queries below lives in `crime_dw/analyses/example_queries.sql`.
+
+## Sample insights (real data, 2016–2023)
+
+Queried from the gold layer (`fact_crime` + dimensions):
+
+### Top 5 states by total reported crimes
+
+| State | Years | Total crimes |
+|---|---:|---:|
+| Selangor | 8 | 630,509 |
+| W.P. Kuala Lumpur | 8 | 310,804 |
+| Johor | 8 | 263,852 |
+| Kedah | 8 | 172,740 |
+| Sarawak | 8 | 172,544 |
+
+### Top 5 crime types nationally
+
+| Category | Type | Total crimes |
+|---|---:|---:|
+| property | theft_vehicle_motorcycle | 487,977 |
+| property | theft_other | 439,980 |
+| property | break_in | 344,202 |
+| property | theft_vehicle_motorcar | 141,843 |
+| assault | robbery_gang_unarmed | 133,080 |
+
+### National crime trend by year
+
+| Year | Total crimes |
+|---|---:|
+| 2016 | 112,355 |
+| 2017 | 99,170 |
+| 2018 | 88,662 |
+| 2019 | 83,456 |
+| 2020 | 65,623 |
+| 2021 | 52,974 |
+| 2022 | 50,813 |
+| 2023 | 52,444 |
 
 ## Data quality caveat
 
