@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: stg_crime_district
+    description: "Cleaned staging model — types cast and columns renamed, no business logic."
+    columns:
+      - name: crime_date
+        tests: [not_null]
+      - name: state
+        tests: [not_null]
+      - name: district
+        tests: [not_null]
+      - name: crime_count
+        tests: [not_null]
+
+  - name: dim_district
+    description: "Dimension of police districts by state."
+    columns:
+      - name: district_key
+        tests: [not_null, unique]
+      - name: state
+        tests: [not_null]
+      - name: district
+        tests: [not_null]
+
+  - name: dim_crime_type
+    description: "Dimension of crime categories and types."
+    columns:
+      - name: crime_type_key
+        tests: [not_null, unique]
+      - name: crime_category
+        tests: [not_null]
+      - name: crime_type
+        tests: [not_null]
+
+  - name: fact_crime
+    description: "Fact table — crime counts per district and crime type per day."
+    columns:
+      - name: district_key
+        tests: [not_null]
+      - name: crime_type_key
+        tests: [not_null]
+      - name: crime_date
+        tests: [not_null]
+      - name: crime_count
+        tests: [not_null]

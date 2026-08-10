@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    description: "Raw data from data.gov.my (Crimes by District & Crime Type). Landed as-is by scripts/ingest.py"
+    tables:
+      - name: crime_district_raw
+        description: "Raw crime counts per district, crime type and date. NOTE: unreported crimes are not included in this dataset."
