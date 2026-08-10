@@ -17,13 +17,13 @@ Crime statistics are directly domain-adjacent to the mandate of SPRM/BPRM (integ
 │  BRONZE     │     │  SILVER              │     │  GOLD (star schema)          │
 │  raw data   │ ──► │  staging / cleaned   │ ──► │  dim_district                │
 │  as-is      │     │  stg_crime_district  │     │  dim_crime_type              │
-│  (Parquet)  │     │  (cast types,        │     │  fact_crime                  │
+│  (Open API) │     │  (cast types,        │     │  fact_crime                  │
 │             │     │   rename columns)    │     │  (district_key, crime_type_  │
 │             │     │                      │     │   key, crime_date, count)    │
 └─────────────┘     └──────────────────────┘     └──────────────────────────────┘
 ```
 
-- **Bronze** (`scripts/ingest.py` → schema `bronze`): the raw Parquet file is landed untouched. No transformation.
+- **Bronze** (`scripts/ingest.py` → schema `bronze`): the raw API response is landed untouched. No transformation.
 - **Silver** (`models/staging` → schema `silver`): staging view with only type casting and column renaming — no business logic.
 - **Gold** (`models/marts` → schema `gold`): a proper star schema — two dimension tables and one fact table keyed by surrogate keys.
 
@@ -31,7 +31,7 @@ Crime statistics are directly domain-adjacent to the mandate of SPRM/BPRM (integ
 
 | Layer | Tool |
 |---|---|
-| Data source | data.gov.my Open API / Parquet (no auth needed) |
+| Data source | data.gov.my Open API (`data-catalogue?id=crime_district`, no auth needed) |
 | Storage + compute | DuckDB |
 | Transformation | dbt-core + dbt-duckdb |
 | Version control | Git + GitHub |

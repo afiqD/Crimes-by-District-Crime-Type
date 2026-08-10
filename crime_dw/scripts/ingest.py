@@ -2,14 +2,14 @@
 import duckdb
 
 DB_PATH = "crime_dw.duckdb"
-PARQUET_URL = "https://storage.data.gov.my/publicsafety/crime_district.parquet"
+API_URL = "https://api.data.gov.my/data-catalogue/?id=crime_district&sort=-date"
 
 con = duckdb.connect(DB_PATH)
 con.sql("""
     CREATE SCHEMA IF NOT EXISTS bronze;
     CREATE OR REPLACE TABLE bronze.crime_district_raw AS
-    SELECT * FROM read_parquet(?);
-""", params=[PARQUET_URL])
+    SELECT * FROM read_json_auto(?);
+""", params=[API_URL])
 
 count = con.sql("SELECT COUNT(*) FROM bronze.crime_district_raw").fetchone()[0]
 columns = [c[0] for c in con.sql("DESCRIBE bronze.crime_district_raw").fetchall()]
