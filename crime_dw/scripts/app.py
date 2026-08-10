@@ -4,6 +4,7 @@ Run:  python scripts/app.py   ->  http://localhost:5000
 """
 import json
 import os
+import re
 
 import duckdb
 from flask import Flask, jsonify, render_template_string, request
@@ -83,7 +84,7 @@ PAGE = """
 <body>
 <div class="header">
   <h1>Crime Warehouse &mdash; DuckDB + dbt</h1>
-  <p>Query the gold/silver/bronze layers directly. Database file: <code>crime_dw.duckdb</code></p>
+  <p>Query the gold/silver/bronze layers directly. dbt Jinja is supported: <code>{{ source('bronze', 'crime_district_raw') }}</code> and <code>{{ ref('fact_crime') }}</code>.</p>
 </div>
 <div class="wrap">
   <div class="col-left">
@@ -206,11 +207,34 @@ def api_tables():
     return jsonify(tables=tables)
 
 
+def render_jinja_lite(sql):
+    """Translate the dbt Jinja used in this project into plain DuckDB SQL."""
+    sql = re.sub(
+        r"\{\{\s*source\(\s*['\"]([\w.]+)['\"]\s*,\s*['\"]([\w.]+)['\"]\s*\)\s*\}\}",
+        r"\1.\2",
+        sql,
+    )
+    ref_map = {
+        "stg_crime_district": "main_silver.stg_crime_district",
+        "dim_district": "main_gold.dim_district",
+        "dim_crime_type": "main_gold.dim_crime_type",
+        "fact_crime": "main_gold.fact_crime",
+    }
+    sql = re.sub(
+        r"\{\{\s*ref\(\s*['\"]([\w.]+)['\"]\s*\)\s*\}\}",
+        lambda m: ref_map.get(m.group(1), m.group(1)),
+        sql,
+    )
+    sql = re.sub(r"\{\{\s*config\(.*?\)\s*\}\}", "", sql, flags=re.DOTALL)
+    return sql
+
+
 @app.route("/api/query", methods=["POST"])
 def api_query():
     sql = request.get_json().get("sql", "").strip()
     if not sql:
         return jsonify(error="Empty query")
+    sql = render_jinja_lite(sql)
     if not sql.lower().lstrip().startswith(("select", "with", "show", "describe", "pragma", "explain")):
         return jsonify(error="Read-only mode: only SELECT/WITH/SHOW/DESCRIBE queries are allowed")
     con = get_con()
