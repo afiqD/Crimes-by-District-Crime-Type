@@ -10,6 +10,8 @@ Crime statistics are directly domain-adjacent to the mandate of SPRM/BPRM (integ
 
 ## Architecture
 
+![dbt lineage graph](assets/lineage_graph.png)
+
 ```
 ┌─────────────┐     ┌──────────────────────┐     ┌──────────────────────────────┐
 │  BRONZE     │     │  SILVER              │     │  GOLD (star schema)          │
