@@ -4,6 +4,8 @@ A one-day mini data warehouse built with a medallion architecture (bronze → si
 
 **Dataset:** [Crimes by District & Crime Type](https://data.gov.my) (data.gov.my / OpenDOSM), catalogue ID `crime_district` — a national public dataset released by the Government of Malaysia.
 
+> 📄 **[Technical Summary](technicalsummary.html)** — full project flow, stack, step-by-step setup & usage, troubleshooting, and a reusable playbook to rebuild this pipeline for any dataset.
+
 ## Why this dataset
 
 Crime statistics are directly domain-adjacent to the mandate of SPRM/BPRM (integrity and anti-corruption enforcement): law-enforcement agencies depend on consistent, cleaned, queryable crime data for operational reporting. This project demonstrates exactly that workflow.
