@@ -40,7 +40,7 @@ Crime statistics are directly domain-adjacent to the mandate of SPRM/BPRM (integ
 
 ```bash
 python3 -m venv venv && source venv/bin/activate
-pip install dbt-core dbt-duckdb duckdb pandas
+pip install dbt-core dbt-duckdb duckdb pandas flask
 
 # 1. Bronze: land raw data
 python crime_dw/scripts/ingest.py
@@ -55,9 +55,15 @@ dbt test
 # 4. Generate and serve lineage docs
 dbt docs generate
 dbt docs serve
+
+# 5. (Optional) Open the web UI to query and view the data
+cd ..
+python crime_dw/scripts/app.py   # then open http://localhost:5000
 ```
 
-`dbt docs serve` opens a browser with an auto-generated lineage graph of the whole pipeline. Ready-made SQL for the queries below lives in `crime_dw/analyses/example_queries.sql`.
+`dbt docs serve` opens a browser with an auto-generated lineage graph of the whole pipeline. The web UI (`scripts/app.py`) lets you run any SQL against the DuckDB warehouse and see the results in the browser — it opens pre-loaded with a live query showing the top states by crime.
+
+![Crime warehouse web UI](assets/webui.png)
 
 ## Sample insights (real data, 2016–2023)
 
