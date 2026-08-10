@@ -89,6 +89,11 @@ PAGE = """
 <div class="wrap">
   <div class="col-left">
     <div class="card">
+      <h2>Custom query</h2>
+      <textarea id="custom" placeholder="select * from bronze.crime_district_raw limit 5" style="min-height:90px"></textarea>
+      <button class="btn" style="width:100%;margin-top:8px" onclick="runCustom()">Run custom query</button>
+    </div>
+    <div class="card">
       <h2>Example queries</h2>
       <div id="examples"></div>
     </div>
@@ -126,6 +131,17 @@ function fmt(v) {
   if (v === null || v === undefined) return '<i style="color:#64748b">NULL</i>';
   if (typeof v === 'number') return v.toLocaleString();
   return String(v).replace(/</g, '&lt;');
+}
+
+async function runCustom() {
+  const sql = document.getElementById('custom').value.trim();
+  if (!sql) {
+    const out = document.getElementById('result');
+    out.innerHTML = '<div class="err">Type a query first.</div>';
+    return;
+  }
+  document.getElementById('sql').value = sql;
+  await run();
 }
 
 async function run() {
