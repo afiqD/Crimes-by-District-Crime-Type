@@ -1,7 +1,9 @@
 """Bronze layer: land the raw dataset as-is, untouched."""
+import os
 import duckdb
 
-DB_PATH = "crime_dw.duckdb"
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(PROJECT_DIR, "crime_dw.duckdb")
 API_URL = "https://api.data.gov.my/data-catalogue/?id=crime_district&sort=-date"
 
 con = duckdb.connect(DB_PATH)
