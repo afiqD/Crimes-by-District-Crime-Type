@@ -1,3 +1,8 @@
+# Build Ideas
+▸ An 'is my daerah safe?' crime lookup with type breakdown
+▸ Animated map of property-vs-violent crime shifting 2016-2023
+▸ Rank districts by biggest crime drop, spotlight what's working
+
 # Crime Data Warehouse — Crimes by District & Crime Type
 
 A one-day mini data warehouse built with a medallion architecture (bronze → silver → gold), using **dbt-core** for transformation and **DuckDB** as the embedded warehouse engine. All tools are 100% free and open-source.
